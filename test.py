@@ -1,13 +1,18 @@
+import time
 from genetic import *
 
-from viz_graph import create_graph, Graph, Bipartite_Graph
 
-g = Graph(['Alice', 'Bob', 'Clarie'], ['grey', 'grey', 'grey'])
 
-g.add_edge(0, 1, 15)
+for n in range(2, 100):
+    debt = [0] * n
 
-# g.add_edge(1, 2, 5)
+    start = time.time()
 
-g.add_edge(0, 2, 15)
+    GENERATIONS = 10000
 
-g.viz_graph()
+    population = getInitialPopulation(n, debt)
+
+    for _ in range(GENERATIONS):
+        population = getNextGen(population, debt)
+    
+    end = time.time()

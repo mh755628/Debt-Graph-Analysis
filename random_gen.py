@@ -1,6 +1,7 @@
 from random import shuffle, randint
 
-POPULATION_SIZE = 100
+POPULATION_SIZE = 25
+MAXIMUM_WEIGHT = 20
 
 n = randint(1, POPULATION_SIZE)
 m = randint(1, n * (n - 1) // 2)
@@ -11,7 +12,7 @@ edge = []
 adj = [[0] * n for _ in range(n)]
 
 for _ in range(m):
-    a, b, c = randint(0, n - 1), randint(0, n - 1), randint(0, 100)
+    a, b, c = randint(0, n - 1), randint(0, n - 1), randint(1, MAXIMUM_WEIGHT)
     if a == b:
         continue
     adj[a][b] += c

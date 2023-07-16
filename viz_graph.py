@@ -63,7 +63,7 @@ class Graph:
 
 
         node_sizes = [1200 for _ in range(len(self.nodes))]
-        # node_colors = ['green' for _ in range(len(self.nodes))]
+        colors = ['blue' for _ in range(len(self.nodes))]
 
         plt.rcParams['toolbar'] = 'None'
 
@@ -81,6 +81,11 @@ class Graph:
         nx.draw_networkx_edges(G, pos, arrows=True, width=width, arrowstyle='->', arrowsize=40)
         nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
         plt.axis('off')
+
+        # random = np.random.randint(1000000)
+
+        #save fig
+        plt.savefig('normal.png', bbox_inches='tight', pad_inches=0, dpi=100)
         # plt.show()
 
         #save fig
@@ -146,6 +151,11 @@ class Bipartite_Graph:
         nx.draw_networkx_edge_labels(B, pos, edge_labels=edge_labels)
 
         plt.axis('off')
+
+        #save fig
+
+        plt.savefig('bipartite.png', bbox_inches='tight', pad_inches=0, dpi=100)
+
         # plt.show()
         #waitkey q
         plt.waitforbuttonpress(0)

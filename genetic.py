@@ -67,57 +67,100 @@ class Gene:
             else:
                 reverse()
 
+    def crossover(self, other, debt):
+        def cycle_crossover(self, other, debt):
+            n = len(self.permutation)
 
-    def cycle_crossover(self, other, debt):
-        n = len(self.permutation)
+            p1 = [x for x in self.permutation]
+            p2 = [x for x in other.permutation]
 
-        p1 = [x for x in self.permutation]
-        p2 = [x for x in other.permutation]
+            g1 = Gene(p1, debt)
+            g2 = Gene(p2, debt)
 
-        g1 = Gene(p1, debt)
-        g2 = Gene(p2, debt)
+            visit = [False] * n
 
-        visit = [False] * n
+            child1 = [0] * n
+            child2 = [0] * n
 
-        child1 = [0] * n
-        child2 = [0] * n
+            cycle_parity = 0
 
-        cycle_parity = 0
+            for i in range(n):
+                if visit[i]:
+                    continue
 
-        for i in range(n):
-            if visit[i]:
-                continue
+                j = i
 
-            j = i
+                cycle_parity ^= 1
 
-            cycle_parity ^= 1
+                if cycle_parity:
+                    g1, g2 = g2, g1
 
-            if cycle_parity:
-                g1, g2 = g2, g1
+                while not visit[j]:
+                    visit[j] = True
+                    child1[j] = g1.permutation[j]
+                    child2[j] = g2.permutation[j]
 
-            while not visit[j]:
-                visit[j] = True
-                child1[j] = g1.permutation[j]
-                child2[j] = g2.permutation[j]
-
-                j = g1.reverse_map[g2.permutation[j]]
+                    j = g1.reverse_map[g2.permutation[j]]
 
 
-        if (not isValid(child1)) or (not isValid(child2)):
-            print("Invalid crossover") 
+            if (not isValid(child1)) or (not isValid(child2)):
+                print("Invalid crossover") 
 
-            print(self.permutation)
-            print(other.permutation)
+                print(self.permutation)
+                print(other.permutation)
 
-            print(child1)
-            print(child2)
+                print(child1)
+                print(child2)
 
-            #raise Exception("Invalid crossover")
+                #raise Exception("Invalid crossover")
 
-            Exception("Invalid crossover")
+                Exception("Invalid crossover")
 
-        return Gene(child1, debt), Gene(child2, debt)
-                
+            return Gene(child1, debt), Gene(child2, debt)
+        
+        def order_crossover(self, other, debt):
+            n = len(self.permutation)
+            child1 = self.permutation[:n // 2]
+            child2 = other.permutation[:n // 2]
+
+            for x in other.permutation:
+                if x not in child1:
+                    child1.append(x)
+            
+            for x in self.permutation:
+                if x not in child2:
+                    child2.append(x)
+
+            return Gene(child1, debt), Gene(child2, debt)
+        
+        def partially_mapped_crossover(self, other, debt):
+
+            n = len(self.permutation)
+
+            p1 = [x for x in self.permutation]
+            p2 = [x for x in other.permutation]
+
+            g1 = Gene(p1, debt)
+            g2 = Gene(p2, debt)
+
+            child = [0] * n
+
+            i, j = sorted([randint(0, n - 1) for _ in range(2)])
+
+            for k in range(i, j + 1):
+                child[k] = g1.permutation[k]
+            
+            for k in range(n):
+                if child[k] == 0:
+                    if g2.permutation[k] in child:
+                        idx = child.index(g2.permutation[k])
+                        child[k], child[idx] = child[idx], child[k]
+                    else:
+                        child[k] = g2.permutation[k]
+            
+            return Gene(child, debt)
+        
+        return order_crossover(self, other, debt)
 
 def getRandomGene(n, debt):
     permutation = list(range(n))
@@ -142,13 +185,13 @@ def getNextGen(population, debt):
 
     #crossover
     for i in range(0, n, 2):
-        population.extend(population[i].cycle_crossover(population[i + 1], debt))
+        population.extend(population[i].crossover(population[i + 1], debt))
 
 
     for i in range(n):
         #select random gene to mutate
         j = randint(0, len(population) - 1)
-        population.extend(population[i].cycle_crossover(population[j], debt))
+        population.extend(population[i].crossover(population[j], debt))
 
     #mutation
     for gene in population:
