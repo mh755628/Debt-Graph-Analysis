@@ -14,12 +14,15 @@ Dynamic programming approaches face limitations when applied to larger debt grap
 ### Genetic Algorithm Framework
 Our genetic algorithm framework encompasses the following components:
 
-1. Representation: We design a suitable representation for debt graphs within the genetic algorithm, ensuring compatibility with the genetic operators.
-2. Fitness Evaluation: We employ fitness evaluation mechanisms to quantify the quality of each individual solution in terms of edge count.
-3. Genetic Operators: We incorporate genetic operators tailored for debt transformation, including crossover (recombination) and mutation, to explore the solution space and improve edge count progressively.
+1. Representation: We represent each gene as a permutation, which encodes the transformation of the debt graph into a bipartite graph.
+2. Fitness Evaluation: The fitness evaluation mechanism calculates the number of edges in a specific solution, serving as a measure of the solution's quality.
+3. Selection: We employ tournament selection to select individuals with higher fitness values, increasing the likelihood of selecting fitter solutions.
+4. Crossover: Order crossover is used as the crossover operator, which combines genetic material from two parent solutions to create offspring solutions.
+5. Mutation: Mutation introduces random changes in the genetic material of solutions, allowing for exploration of new regions in the solution space.
+6. Termination: The algorithm terminates when a stopping criterion is met, such as reaching a maximum number of iterations or finding a solution with an acceptable edge count.
 
 ## Evaluation
 We evaluate the performance of our proposed approach on a diverse set of debt graphs with varying sizes. Experimental results demonstrate the effectiveness of dynamic programming for smaller graphs, achieving optimal edge count. Additionally, our genetic algorithm approach outperforms other conventional optimization methods for larger graphs, significantly reducing the edge count compared to alternative techniques.
 
 ## Conclusion
-This project offers a comprehensive solution for minimizing edge count in the transformation of debt graphs into bipartite graphs. By combining dynamic programming and genetic algorithms, we achieve efficient and scalable optimization, enabling effective debt management and aiding financial decision-making processes. The proposed approach provides a valuable tool for organizations and individuals seeking to manage debts more efficiently and make informed financial decisions.
+This project offers a comprehensive solution for minimizing the edge count in the transformation of debt graphs into bipartite graphs. By combining dynamic programming and genetic algorithms, we achieve efficient and scalable optimization, enabling effective debt management and aiding financial decision-making processes. The proposed approach provides a valuable tool for organizations and individuals seeking to manage debts more efficiently and make informed financial decisions.
